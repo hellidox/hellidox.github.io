@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Damage Calculator</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    .container {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+    .input-group {
+        margin-bottom: 10px;
+    }
+    .input-group label {
+        display: block;
+        margin-bottom: 5px;
+    }
+    .input-group input {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        box-sizing: border-box;
+    }
+    .result {
+        margin-top: 10px;
+        font-weight: bold;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="input-group">
+        <label for="damage">damage</label>
+        <input onchange="calculateDamage()" type="number" id="damage" min="0" value="0">
+    </div>
+    <div class="input-group">
+        <label for="defensePoints">defense points</label>
+        <input onchange="calculateDamage()" type="number" id="defensePoints" min="0" value="0">
+    </div>
+    <div class="input-group">
+        <label for="toughness">toughness</label>
+        <input onchange="calculateDamage()" type="number" id="toughness" min="0" value="0">
+    </div>
+    <div class="input-group">
+        <label for="protectionLevels">protection levels (typed protection is multiplied by 2)</label>
+        <input onchange="calculateDamage()" type="number" id="protectionLevels" min="0" value="0">
+    </div>
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    function calculateDamage() {
+        damage = parseFloat(document.getElementById('damage').value);
+        defensePoints = parseFloat(document.getElementById('defensePoints').value);
+        toughness = parseFloat(document.getElementById('toughness').value);
+        protectionLevels = parseFloat(document.getElementById('protectionLevels').value);
+        document.getElementById('result').innerHTML = (parseInt(damage * (1 - Math.min(20, Math.max(defensePoints / 5, defensePoints - damage / (2 + toughness / 4))) / 25) * 1000) / 1000) * (1 - Math.min(0.8, Math.max(protectionLevels / 100 * 4))).toFixed(2);
+    }
+</script>
+</body>
+</html>
