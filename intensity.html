@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Source Code Pro', monospace;
+            font-weight: 600;
+            background-color: #2e004f;  /* Dark purple */
+            color: #f4f4d0;  /* Light yellow */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 60vh;
+            margin: 0;
+            text-align: center;
+        }
+        .container {
+            max-width: 500px;
+        }
+        label, input {
+            display: block;
+            margin: 10px auto;
+        }
+        #output {
+            width: 100px;
+            height: 100px;
+            margin: 20px auto;
+            border: 1px solid #f4f4d0;
+        }
+        #explain {
+            margin-top: 20px;
+            font-family: 'Source Code Pro', monospace;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <label for="color">choose a color:</label>
+        <input type="color" id="color" value="#ff0000">
+        <label for="intensity">intensity (-1 to 1):</label>
+        <input type="number" id="intensity" step="0.01" min="-1" max="1" value="0">
+        <div id="output"></div>
+        <div id="explain"></div>
+    </div>
+    <script>
+        document.getElementById('color').addEventListener('input', adjustColor);
+        document.getElementById('intensity').addEventListener('input', adjustColor);
+        function adjustColor() {
+            colorInput = document.getElementById('color').value;
+            intensity = parseFloat(document.getElementById('intensity').value);
+            color = hexToRgb(colorInput);
+            breakdown = `initial color (rgb): (${color.r}, ${color.g}, ${color.b})<br>`;
+            breakdown += `intensity: ${intensity.toFixed(2)}<br><br>`;
+            if (intensity <= -1) {
+                color = { r: 0, g: 0, b: 0 };
+                breakdown += `intensity <= -1<br>`;
+                breakdown += `Color is set to black.<br>`;
+            } else if (intensity > 0) {
+                maxColorComponent = Math.max(color.r, color.g, color.b) / 255;
+                breakdown += `intensity > 0<br>`;
+                breakdown += `Max color component: ${maxColorComponent.toFixed(2)}<br>`;       
+                if (maxColorComponent > 0) {
+                    lerpFactor = intensity;
+                    lerpedColor = {
+                        r: lerp(color.r, color.r / maxColorComponent, lerpFactor),
+                        g: lerp(color.g, color.g / maxColorComponent, lerpFactor),
+                        b: lerp(color.b, color.b / maxColorComponent, lerpFactor)
+                    };
+                    color.r = Math.min(255, Math.max(0, lerpedColor.r));
+                    color.g = Math.min(255, Math.max(0, lerpedColor.g));
+                    color.b = Math.min(255, Math.max(0, lerpedColor.b));
+                    breakdown += `lerping each color component towards brighter color:<br>`;
+                    breakdown += `new RGB: (${Math.round(color.r)}, ${Math.round(color.g)}, ${Math.round(color.b)})<br>`;
+                }
+            } else {
+                factor = 1 + intensity;
+                breakdown += `intensity <= 0<br>`;
+                breakdown += `multiplying each color component by ${factor.toFixed(2)}:<br>`;
+                color.r *= factor;
+                color.g *= factor;
+                color.b *= factor;
+                color.r = Math.min(255, Math.max(0, color.r));
+                color.g = Math.min(255, Math.max(0, color.g));
+                color.b = Math.min(255, Math.max(0, color.b));
+                breakdown += `new rgb: (${Math.round(color.r)}, ${Math.round(color.g)}, ${Math.round(color.b)})<br>`;
+            }
+            rgbaColor = `rgba(${Math.round(color.r)}, ${Math.round(color.g)}, ${Math.round(color.b)}, 1)`;
+            document.getElementById('output').style.backgroundColor = rgbaColor;
+            document.getElementById('explain').innerHTML = breakdown;
+        }
+        function hexToRgb(hex) {
+            v = parseInt(hex.slice(1), 16);
+            r = (v >> 16) & 255;
+            g = (v >> 8) & 255;
+            b = v & 255;
+            return { r, g, b };
+        }
+        function lerp(start, end, t) {
+            return start + t * (end - start);
+        }
+        adjustColor();
+    </script>
+</body>
+</html>
