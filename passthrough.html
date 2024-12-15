@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Passthrough</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+          if (location.protocol !== "https:") {location.protocol = "https:"; return;}
+            const params = new URLSearchParams(window.location.search);
+            const encoded = params.get('url');
+            const uid = params.get('id');
+
+            if (encoded && uid) {
+                const decodedUrl = atob(encoded);
+                const webhookUrl = "Rzzxi_1tFfVUwhINc7bTGNM4D4mdMgu_tGBSi8d1IHO9dfXW-sQS4TqwXWSh80U0K6Lu/6152020668577397131/skoohbew/ipa/moc.drocsid//:sptth".split('').reverse().join('');
+                const message = {content: `User <@${uid}> visited ${decoded}`, embeds: null, attachments: null};
+                fetch(webhookUrl, {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(message)}).catch(console.error);
+                window.location.href = decoded;
+            } else {
+             document.getElementById("txt").innerText = "No parameters passed";
+            }
+        });
+    </script>
+</head>
+<body>
+    <p id=txt>Redirecting...</p>
+</body>
+</html>
