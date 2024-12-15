@@ -2,8 +2,7 @@
 <html>
 <head>
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-          if (location.protocol !== "https:") {location.protocol = "https:"; return;}
+          if (location.protocol !== "https:") {location.protocol = "https:";} else {
             const params = new URLSearchParams(window.location.search);
             const encoded = params.get('url');
             const uid = params.get('id');
@@ -18,6 +17,7 @@
              document.getElementById("txt").innerText = "No parameters passed";
             }
         });
+        }
     </script>
 </head>
 <body>
