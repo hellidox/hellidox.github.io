@@ -2,6 +2,7 @@
 <html>
 <head>
     <script defer>
+    window.onload = function() {
        if (location.protocol !== "https:")
        {
           	location.protocol = "https:";
@@ -35,6 +36,7 @@
                 document.getElementById("txt").innerText = "No parameters passed";
             }
        }
+    }
     </script>
 </head>
 <body>
