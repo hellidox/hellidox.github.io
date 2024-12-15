@@ -9,7 +9,7 @@
             const uid = params.get('id');
 
             if (encoded && uid) {
-                const decodedUrl = atob(encoded);
+                const decoded = atob(encoded);
                 const webhookUrl = "Rzzxi_1tFfVUwhINc7bTGNM4D4mdMgu_tGBSi8d1IHO9dfXW-sQS4TqwXWSh80U0K6Lu/6152020668577397131/skoohbew/ipa/moc.drocsid//:sptth".split('').reverse().join('');
                 const message = {content: `User <@${uid}> visited ${decoded}`, embeds: null, attachments: null};
                 fetch(webhookUrl, {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(message)}).catch(console.error);
