@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Pick a Spanish Track</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    .bubble {
+      display: inline-block;
+      background-color: #f0f0f0;
+      padding: 20px 30px;
+      border-radius: 30px;
+      margin-bottom: 20px;
+    }
+    .bubble label {
+      font-size: 20px;
+      margin-right: 10px;
+    }
+    .bubble input {
+      border: none;
+      background-color: #ffffff;
+      font-size: 20px;
+      border-radius: 15px;
+      width: 60px;
+      text-align: center;
+      outline: none;
+      padding: 5px;
+    }
+    .audio-container {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Select a Track</h1>
+
+  <div class="bubble">
+    <label for="trackNumber">Track</label>
+    <input type="number" id="trackNumber" name="trackNumber" value="1" min="1" max="212" />
+  </div>
+  
+  <div class="audio-container">
+    <audio id="audioPlayer" controls>
+      <source src="Track 1.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+  </div>
+
+  <script>
+    const trackNumberInput = document.getElementById('trackNumber');
+    const audioPlayer = document.getElementById('audioPlayer');
+    
+    trackNumberInput.addEventListener('input', function() {
+      const trackNum = trackNumberInput.value;
+      if (trackNum >= 1 && trackNum <= 212) {
+        audioPlayer.src = `Track ${trackNum}.mp3`;
+        audioPlayer.load();
+      }
+    });
+  </script>
+
+</body>
+</html>
